@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="refresh" content="30" >
+
+    <title>RAPTOR</title>
+    <link href="../static/css/theme.css" rel="stylesheet">
+    <link rel="stylesheet" type="./text/css" href="../static/css/toastify.css">
+    <script type="text/javascript" src="../static/js/toastify.js"></script>
+
+
+    <style>
+        .tall-row {
+            margin-top: 40px;
+        }
+        .modal {
+            position: relative;
+            top: auto;
+            right: auto;
+            left: auto;
+            bottom: auto;
+            z-index: 1;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4 col-lg-offset-4">
+                <a class="navbar-brand" href="index.php">RAPTOR Control Paneli</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+    <br><br><br>
+
+    <div class="row">
+        <div class="col-md-10 col-lg-offset-1">
+            <div class="well">
+                <br>
+                 <button onclick="window.location.href='/clear';" id="btn-update-info" name="btn-update-info" class="btn btn-default">Update</button>
+                <br>
+
+                <legend>Device List</legend>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table class="table table-striped table-hover ">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>ID</th>
+                                <th>PC</th>
+                                <th>IP</th>
+                                <th>VIRUSTOTAL</th>
+                                <th>ACTION</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            {%for x,i in enumerate(IDS)%}
+
+                                <tr>
+                                <td>{{x}}</td>
+                                <td>{{i}}</td>
+                                <td>{{IDS[i]["PC"]}}</td>
+                                <td>{{IDS[i]["IP"]}}</td>
+                                <td>{{IDS[i]["VIRUSTOTAL"]}}</td>
+                                <td><a href="/confirmattack/{{i}}" >Attack</></td>
+                                </tr>
+                            {%endfor%}
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+
+                <br><br>
+            </div>
+        </div>
+    </div>
+
+    <br><br>
+
+    <div class="row tall-row">
+        <div class="col-md-offset-8">
+            <p>Created by <a href="#">Mehmet Şirin Sulan</a>. &copy; 2021</p>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

